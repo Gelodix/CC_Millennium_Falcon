@@ -14,7 +14,7 @@ local state = {
         yawOffset = 0,
         swapPitchAndRoll = false,
         invertPitch = false,
-        invertRoll = false,
+        invertRoll = true,
     },
     altitudeControl = {
         enabled = false,

@@ -1,6 +1,7 @@
 local state = require("faucon_files.state")
 local peripherals =  require("faucon_files.peripherals")
 local quaternion = require("libraries.quaternion")
+local utils = require("faucon_files.utils")
 
 
 -- #########################
@@ -57,9 +58,9 @@ function controls.taskStabilisationLogic()
                 local pose = sublevel.getLogicalPose()
 
                 if pose.position then
-                    state.sable.x = pose.position.x
-                    state.sable.y = pose.position.y
-                    state.sable.z = pose.position.z
+                    state.sable.x = utils.roundFloat(pose.position.x, 3)
+                    state.sable.y = utils.roundFloat(pose.position.y, 3)
+                    state.sable.z = utils.roundFloat(pose.position.z, 3)
                 end
             
                 if pose.orientation and pose.orientation.v then
@@ -77,7 +78,7 @@ function controls.taskStabilisationLogic()
                     local rawYawDeg = math.deg(yawRad)
                     local rawRollDeg = math.deg(rollRad)
 
-                    state.sable.yaw = (rawYawDeg + state.sable.yawOffset + 360) % 360
+                    state.sable.yaw = utils.roundFloat((rawYawDeg + state.sable.yawOffset + 360) % 360, 3)
 
                     local finalPitch = rawPitchDeg
                     local finalRoll = rawRollDeg
@@ -90,15 +91,15 @@ function controls.taskStabilisationLogic()
                     if state.sable.invertPitch then finalPitch = -finalPitch end
                     if state.sable.invertRoll then finalRoll = -finalRoll end
 
-                    state.sable.pitch = finalPitch
-                    state.sable.roll = finalRoll
-
-
+                    state.sable.pitch = utils.roundFloat(finalPitch, 3)
+                    state.sable.roll = utils.roundFloat(finalRoll, 3)
                 end
             end
         end
         sleep(0.05)
     end
 end
+
+
 
 return controls

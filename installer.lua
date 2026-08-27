@@ -8,6 +8,7 @@ local files = {
     ["faucon_files/peripherals.lua"] = "faucon_files/peripherals.lua",
     ["faucon_files/state.lua"] = "faucon_files/state.lua",
     ["faucon_files/ui.lua"] = "faucon_files/ui.lua",
+    ["faucon_files/utils.lua"] = "faucon_files/utils.lua",
     ["libraries/quaternion.lua"] = "libraries/quaternion.lua",
 }
 
