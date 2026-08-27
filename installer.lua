@@ -8,7 +8,7 @@ local files = {
     ["faucon_files/peripherals.lua"] = "faucon_files/peripherals.lua",
     ["faucon_files/state.lua"] = "faucon_files/state.lua",
     ["faucon_files/ui.lua"] = "faucon_files/ui.lua",
-    ["library/quaternion.lua"] = "library/quaternion.lua",
+    ["libraries/quaternion.lua"] = "libraries/quaternion.lua",
 }
 
 print("Cleaning files...")

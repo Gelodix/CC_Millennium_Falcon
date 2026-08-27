@@ -1,6 +1,6 @@
 local state = require("faucon_files.state")
 local peripherals =  require("faucon_files.peripherals")
-local quaternion = require("library.quaternion")
+local quaternion = require("libraries.quaternion")
 
 
 -- #########################
