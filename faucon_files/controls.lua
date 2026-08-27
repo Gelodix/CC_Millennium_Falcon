@@ -48,53 +48,57 @@ local OUT_BACK_RIGHT_VECTOR_RIGHT = "right" -- signal from 0 to 15
 local controls = {}
 
 function controls.taskStabilisationLogic()
-    if not state.altitudeControl.enabled then
-        state.controls.thrustInput = peripherals.relay_input.getAnalogInput(IN_MANUAL_THRUST)
-    end
-    if sublevel then
-        if sublevel.isInPlotGrid() then
-            local pose = sublevel.getLogicalPose()
+    while true do
+        if not state.altitudeControl.enabled then
+            state.controls.thrustInput = peripherals.relay_input.getAnalogInput(IN_MANUAL_THRUST)
+        end
+        if sublevel then
+            if sublevel.isInPlotGrid() then
+                local pose = sublevel.getLogicalPose()
 
-            if pose.position then
-                state.sable.x = pose.position.x
-                state.sable.y = pose.position.y
-                state.sable.z = pose.position.z
-            end
-        
-            if pose.orientation and pose.orientation.v then
-                local q = quaternion.fromComponents(
-                    pose.orientation.v.x,
-                    pose.orientation.v.y,
-                    pose.orientation.v.z,
-                    pose.orientation.a
-                )
-                q:normalize()
-
-                local pitchRad, yawRad, rollRad = q:toEuler()
-
-                local rawPitchDeg = math.deg(pitchRad)
-                local rawYawDeg = math.deg(yawRad)
-                local rawRollDeg = math.deg(rollRad)
-
-                state.sable.yaw = (rawYawDeg + state.sable.yawOffset + 360) % 360
-
-                local finalPitch = rawPitchDeg
-                local finalRoll = rawRollDeg
-
-                if state.sable.swapPitchAndRoll then
-                    finalPitch = rawRollDeg
-                    finalRoll = rawPitchDeg
+                if pose.position then
+                    state.sable.x = pose.position.x
+                    state.sable.y = pose.position.y
+                    state.sable.z = pose.position.z
                 end
+            
+                if pose.orientation and pose.orientation.v then
+                    local q = quaternion.fromComponents(
+                        pose.orientation.v.x,
+                        pose.orientation.v.y,
+                        pose.orientation.v.z,
+                        pose.orientation.a
+                    )
+                    q:normalize()
 
-                if state.sable.invertPitch then finalPitch = -finalPitch end
-                if state.sable.invertRoll then finalRoll = -finalRoll end
+                    local pitchRad, yawRad, rollRad = q:toEuler()
 
-                state.sable.pitch = finalPitch
-                state.sable.roll = finalRoll
+                    local rawPitchDeg = math.deg(pitchRad)
+                    local rawYawDeg = math.deg(yawRad)
+                    local rawRollDeg = math.deg(rollRad)
+
+                    state.sable.yaw = (rawYawDeg + state.sable.yawOffset + 360) % 360
+
+                    local finalPitch = rawPitchDeg
+                    local finalRoll = rawRollDeg
+
+                    if state.sable.swapPitchAndRoll then
+                        finalPitch = rawRollDeg
+                        finalRoll = rawPitchDeg
+                    end
+
+                    if state.sable.invertPitch then finalPitch = -finalPitch end
+                    if state.sable.invertRoll then finalRoll = -finalRoll end
+
+                    state.sable.pitch = finalPitch
+                    state.sable.roll = finalRoll
 
 
+                end
             end
         end
+        sleep(0.05)
     end
-
 end
+
+return controls

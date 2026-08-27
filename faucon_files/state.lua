@@ -34,3 +34,5 @@ local state = {
         toggle_landing_gear_unpressed = true,
     },
 }
+
+return state
