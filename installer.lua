@@ -1,14 +1,13 @@
--- wget run https://raw.githubusercontent.com/Gelodix/CC_Millennium_Falcon/master/installer.lua installer.lua
+-- wget https://raw.githubusercontent.com/Gelodix/CC_Millennium_Falcon/master/installer.lua installer.lua
 
 local repo_url = "https://raw.githubusercontent.com/Gelodix/CC_Millennium_Falcon/main/"
 
 local files = {
     ["faucon.lua"] = "faucon.lua",
-    ["faucun_files/controls.lua"] = "faucun_files/controls.lua",
-    ["faucun_files/peripherals.lua"] = "faucun_files/peripherals.lua",
-    ["faucun_files/state.lua"] = "faucun_files/state.lua",
-    --["controller_files/telemetry.lua"] = "controller_files/telemetry.lua",
-    ["faucun_files/ui.lua"] = "faucun_files/ui.lua",
+    ["faucon_files/controls.lua"] = "faucon_files/controls.lua",
+    ["faucon_files/peripherals.lua"] = "faucon_files/peripherals.lua",
+    ["faucon_files/state.lua"] = "faucon_files/state.lua",
+    ["faucon_files/ui.lua"] = "faucon_files/ui.lua",
     ["library/quaternion.lua"] = "library/quaternion.lua",
 }
 
