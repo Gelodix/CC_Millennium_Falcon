@@ -37,16 +37,19 @@ local OUT_FRONT_RIGHT_VECTOR_FRONT = "front" -- signal from 0 to 15
 local OUT_FRONT_RIGHT_VECTOR_BACK = "back" -- signal from 0 to 15
 local OUT_FRONT_RIGHT_VECTOR_LEFT = "left" -- signal from 0 to 15
 local OUT_FRONT_RIGHT_VECTOR_RIGHT = "right" -- signal from 0 to 15
+local OUT_MIDDLE_FORWARD_THRUSTERS = "bottom" -- signal from 0 to 15
 -- back left vector controls
 local OUT_BACK_LEFT_VECTOR_FRONT = "front" -- signal from 0 to 15
 local OUT_BACK_LEFT_VECTOR_BACK = "back" -- signal from 0 to 15
 local OUT_BACK_LEFT_VECTOR_LEFT = "left" -- signal from 0 to 15
 local OUT_BACK_LEFT_VECTOR_RIGHT = "right" -- signal from 0 to 15
+local OUT_RIGHT_FORWARD_THRUSTERS = "bottom" -- signal from 0 to 15
 -- back right vector controls
 local OUT_BACK_RIGHT_VECTOR_FRONT = "front" -- signal from 0 to 15
 local OUT_BACK_RIGHT_VECTOR_BACK = "back" -- signal from 0 to 15
 local OUT_BACK_RIGHT_VECTOR_LEFT = "left" -- signal from 0 to 15
 local OUT_BACK_RIGHT_VECTOR_RIGHT = "right" -- signal from 0 to 15
+local OUT_LEFT_FORWARD_THRUSTERS = "bottom" -- signal from 0 to 15
 
 local controls = {}
 
@@ -132,6 +135,11 @@ function controls.taskStabilisationLogic()
                 state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength - state.stabilization.stabilizationPower
                 state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength - state.stabilization.stabilizationPower
             end
+        else
+            state.controls.front_left_thruster_strength = 0
+            state.controls.back_left_thruster_strength = 0
+            state.controls.front_right_thruster_strength = 0
+            state.controls.back_right_thruster_strength = 0
         end
 
         sleep(0.05)
@@ -141,10 +149,10 @@ end
 
 function controls.taskActuators()
     while true do
-        peripherals.main_output_relay.setAnalogOutput(OUT_FRONT_LEFT_THRUSTER_POWER, state.controls.front_left_thruster_strength)
-        peripherals.main_output_relay.setAnalogOutput(OUT_FRONT_RIGHT_THRUSTER_POWER, state.controls.front_right_thruster_strength)
-        peripherals.main_output_relay.setAnalogOutput(OUT_BACK_LEFT_THRUSTER_POWER, state.controls.back_left_thruster_strength)
-        peripherals.main_output_relay.setAnalogOutput(OUT_BACK_RIGHT_THRUSTER_POWER, state.controls.back_right_thruster_strength)
+        peripherals.main_output_relay.setAnalogOutput(OUT_FRONT_LEFT_THRUSTER_POWER, utils.normalizeRedstoneOutputSignal(state.controls.front_left_thruster_strength))
+        peripherals.main_output_relay.setAnalogOutput(OUT_FRONT_RIGHT_THRUSTER_POWER, utils.normalizeRedstoneOutputSignal(state.controls.front_right_thruster_strength))
+        peripherals.main_output_relay.setAnalogOutput(OUT_BACK_LEFT_THRUSTER_POWER, utils.normalizeRedstoneOutputSignal(state.controls.back_left_thruster_strength))
+        peripherals.main_output_relay.setAnalogOutput(OUT_BACK_RIGHT_THRUSTER_POWER, utils.normalizeRedstoneOutputSignal(state.controls.back_right_thruster_strength))
         sleep(0.05)
     end
 end
