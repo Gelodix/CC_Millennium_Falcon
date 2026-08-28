@@ -107,30 +107,30 @@ function controls.taskStabilisationLogic()
 
             if state.sable.pitch > state.stabilization.toleratedPitchDelta then
                 correctedPitch = true
-                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength + 1
-                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength + 1
-                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength - 1
-                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength - 1
+                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength + state.stabilization.stabilizationPower
+                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength + state.stabilization.stabilizationPower
+                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength - state.stabilization.stabilizationPower
+                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength - state.stabilization.stabilizationPower
                 
             elseif state.sable.pitch < -state.stabilization.toleratedPitchDelta then
                 correctedPitch = true
 
-                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength + 1
-                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength + 1
-                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength - 1
-                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength - 1
+                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength + state.stabilization.stabilizationPower
+                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength + state.stabilization.stabilizationPower
+                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength - state.stabilization.stabilizationPower
+                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength - state.stabilization.stabilizationPower
             end
 
             if state.sable.roll > state.stabilization.toleratedRollDelta then
-                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength + 1
-                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength + 1
-                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength - 1
-                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength - 1
+                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength + state.stabilization.stabilizationPower
+                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength + state.stabilization.stabilizationPower
+                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength - state.stabilization.stabilizationPower
+                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength - state.stabilization.stabilizationPower
             elseif state.sable.roll < - state.stabilization.toleratedRollDelta then
-                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength + 1
-                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength + 1
-                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength - 1
-                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength - 1
+                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength + state.stabilization.stabilizationPower
+                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength + state.stabilization.stabilizationPower
+                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength - state.stabilization.stabilizationPower
+                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength - state.stabilization.stabilizationPower
             end
         end
 

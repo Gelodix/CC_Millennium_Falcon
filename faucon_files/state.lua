@@ -3,6 +3,7 @@ local state = {
         enabled = true,
         toleratedPitchDelta = 0.5,
         toleratedRollDelta = 0.5,
+        stabilizationPower = 2,
     },
     sable = {
         x = 0,
