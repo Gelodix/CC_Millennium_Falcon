@@ -32,10 +32,13 @@ end
 
 print("Starting installation...")
 
+local cache_buster = os.epoch("utc")
+
 for localPath, remotePath in pairs(files) do
     print("- Downloading " .. localPath .. "...")
 
-    local request = http.get(repo_url .. remotePath)
+    local url = repo_url .. remotePath .. "?t=" .. cache_buster
+    local request = http.get(url)
 
     if request then
         local content = request.readAll()
