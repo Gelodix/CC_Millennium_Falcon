@@ -32,6 +32,10 @@ local state = {
         toggle_flight_mode_unpressed = true,
         toggle_height_control_unpressed =  true,
         toggle_landing_gear_unpressed = true,
+        front_left_thruster_strength = 0,
+        front_right_thruster_strength = 0,
+        back_left_thruster_strength = 0,
+        back_right_thruster_strength = 0,
     },
 }
 

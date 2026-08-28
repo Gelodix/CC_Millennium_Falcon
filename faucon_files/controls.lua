@@ -15,10 +15,11 @@ local IN_YOKE_RIGHT = "right" -- signal from 0 to 15
 local IN_TOGGLE_FLIGHT_MODE = "top" -- signal 0 or 15
 local IN_TOGGLE_HEIGHT_CONTROL = "bottom" -- signal 0 or 15
 -- secondary input redstone_relay
-local IN_INCREASE_HEIGHT = "top" -- signal 0 or 15
-local IN_DECREASE_HEIGHT = "bottom" -- signal 0 or 15
+local IN_INCREASE_HEIGHT = "left" -- signal 0 or 15 - keypad 1
+local IN_DECREASE_HEIGHT = "right" -- signal 0 or 15 - keypad 2
 local IN_MANUAL_THRUST = "front" -- signal from 0 to 15
-local IN_ON_OFF_SHIP = "back" -- signal 0 or 15
+local IN_ON_OFF_SHIP = "back" -- signal 0 or 15 - keypad 3
+local IN_LANDING_GEAR = "bottom" -- signal 0 or 15 - keypad 4
 -- main thrust redstone_relay
 local OUT_FRONT_LEFT_THRUSTER_POWER = "front" -- signal from 0 to 15
 local OUT_FRONT_RIGHT_THRUSTER_POWER = "right" -- signal from 0 to 15
@@ -30,6 +31,7 @@ local OUT_FRONT_LEFT_VECTOR_FRONT = "front" -- signal from 0 to 15
 local OUT_FRONT_LEFT_VECTOR_BACK = "back" -- signal from 0 to 15
 local OUT_FRONT_LEFT_VECTOR_LEFT = "left" -- signal from 0 to 15
 local OUT_FRONT_LEFT_VECTOR_RIGHT = "right" -- signal from 0 to 15
+local OUT_LANDING_GEAR = "bottom" -- signal 0 or 15
 -- front right vector controls
 local OUT_FRONT_RIGHT_VECTOR_FRONT = "front" -- signal from 0 to 15
 local OUT_FRONT_RIGHT_VECTOR_BACK = "back" -- signal from 0 to 15
@@ -96,10 +98,47 @@ function controls.taskStabilisationLogic()
                 end
             end
         end
+
+        if state.controls.thrustInput > 0 then
+            state.controls.front_left_thruster_strength = state.controls.thrustInput
+            state.controls.front_right_thruster_strength = state.controls.thrustInput
+            state.controls.back_left_thruster_strength = state.controls.thrustInput
+            state.controls.back_right_thruster_strength = state.controls.thrustInput
+
+            local correctedPitch = false
+
+            if state.sable.pitch > state.stabilization.toleratedPitchDelta then
+                correctedPitch = true
+                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength + 1
+                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength + 1
+                
+            elseif state.sable.pitch < -state.stabilization.toleratedPitchDelta then
+                correctedPitch = true
+
+                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength + 1
+                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength + 1
+            end
+
+            if state.sable.roll > state.stabilization.toleratedRollDelta then
+                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength + 1
+                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength + 1
+            elseif state.sable.roll < - state.stabilization.toleratedRollDelta then
+                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength + 1
+                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength + 1
+            end
+        end
+
         sleep(0.05)
     end
 end
 
+
+function controls.taskActuators()
+    peripherals.main_output_relay.setAnalogOutput(OUT_FRONT_LEFT_THRUSTER_POWER,state.controls.front_left_thruster_strength)
+    peripherals.main_output_relay.setAnalogOutput(OUT_FRONT_RIGHT_THRUSTER_POWER,state.controls.front_right_thruster_strength)
+    peripherals.main_output_relay.setAnalogOutput(OUT_BACK_LEFT_THRUSTER_POWER,state.controls.back_left_thruster_strength)
+    peripherals.main_output_relay.setAnalogOutput(OUT_BACK_RIGHT_THRUSTER_POWER,state.controls.back_right_thruster_strength)
+end
 
 
 return controls

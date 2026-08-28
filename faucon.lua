@@ -17,4 +17,4 @@ local function show_data()
     end
 end
 
-parallel.waitForAll(show_data, controls.taskStabilisationLogic)
+parallel.waitForAll(show_data, controls.taskStabilisationLogic, controls.taskActuators)
