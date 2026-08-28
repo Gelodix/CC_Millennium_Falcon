@@ -52,9 +52,7 @@ local controls = {}
 
 function controls.taskStabilisationLogic()
     while true do
-        if not state.altitudeControl.enabled then
-            state.controls.thrustInput = peripherals.relay_input.getAnalogInput(IN_MANUAL_THRUST)
-        end
+        state.controls.thrustInput = peripherals.relay_input.getAnalogInput(IN_MANUAL_THRUST)
         if sublevel then
             if sublevel.isInPlotGrid() then
                 local pose = sublevel.getLogicalPose()
@@ -111,20 +109,28 @@ function controls.taskStabilisationLogic()
                 correctedPitch = true
                 state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength + 1
                 state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength + 1
+                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength - 1
+                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength - 1
                 
             elseif state.sable.pitch < -state.stabilization.toleratedPitchDelta then
                 correctedPitch = true
 
                 state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength + 1
                 state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength + 1
+                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength - 1
+                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength - 1
             end
 
             if state.sable.roll > state.stabilization.toleratedRollDelta then
                 state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength + 1
                 state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength + 1
+                state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength - 1
+                state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength - 1
             elseif state.sable.roll < - state.stabilization.toleratedRollDelta then
                 state.controls.front_left_thruster_strength = state.controls.front_left_thruster_strength + 1
                 state.controls.back_left_thruster_strength = state.controls.back_left_thruster_strength + 1
+                state.controls.front_right_thruster_strength = state.controls.front_right_thruster_strength - 1
+                state.controls.back_right_thruster_strength = state.controls.back_right_thruster_strength - 1
             end
         end
 
