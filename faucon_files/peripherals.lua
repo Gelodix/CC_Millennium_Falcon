@@ -1,9 +1,9 @@
 local peripherals = {}
 
-peripherals.relay_input = peripheral.wrap("redstone_relay_2")
+peripherals.relay_input = peripheral.wrap("redstone_relay_4")
 peripherals.main_output_relay = peripheral.wrap("redstone_relay_3")
 peripherals.front_left_vector_relay = peripheral.wrap("redstone_relay_7")
-peripherals.front_right_vector_relay = peripheral.wrap("redstone_relay_4")
+peripherals.front_right_vector_relay = peripheral.wrap("redstone_relay_8")
 peripherals.back_left_vector_relay = peripheral.wrap("redstone_relay_5")
 peripherals.back_right_vector_relay = peripheral.wrap("redstone_relay_6")
 

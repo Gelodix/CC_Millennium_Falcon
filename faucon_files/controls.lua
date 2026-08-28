@@ -134,10 +134,13 @@ end
 
 
 function controls.taskActuators()
-    peripherals.main_output_relay.setAnalogOutput(OUT_FRONT_LEFT_THRUSTER_POWER,state.controls.front_left_thruster_strength)
-    peripherals.main_output_relay.setAnalogOutput(OUT_FRONT_RIGHT_THRUSTER_POWER,state.controls.front_right_thruster_strength)
-    peripherals.main_output_relay.setAnalogOutput(OUT_BACK_LEFT_THRUSTER_POWER,state.controls.back_left_thruster_strength)
-    peripherals.main_output_relay.setAnalogOutput(OUT_BACK_RIGHT_THRUSTER_POWER,state.controls.back_right_thruster_strength)
+    while true do
+        peripherals.main_output_relay.setAnalogOutput(OUT_FRONT_LEFT_THRUSTER_POWER, state.controls.front_left_thruster_strength)
+        peripherals.main_output_relay.setAnalogOutput(OUT_FRONT_RIGHT_THRUSTER_POWER, state.controls.front_right_thruster_strength)
+        peripherals.main_output_relay.setAnalogOutput(OUT_BACK_LEFT_THRUSTER_POWER, state.controls.back_left_thruster_strength)
+        peripherals.main_output_relay.setAnalogOutput(OUT_BACK_RIGHT_THRUSTER_POWER, state.controls.back_right_thruster_strength)
+        sleep(0.05)
+    end
 end
 
 
